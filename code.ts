@@ -27,32 +27,13 @@ const currentPage = figma.currentPage;
 
 
   figma.ui.onmessage = msg => {
-    // One way of distinguishing between different types of messages sent from
-    // your HTML page is to use an object with a "type" property like this.
-    if (msg.type === 'create-shapes') {
-      const nodes: SceneNode[] = [];
-      for (let i = 0; i < msg.count; i++) {
-        const rect = figma.createRectangle();
-        rect.x = i * 150;
-        rect.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
-        figma.currentPage.appendChild(rect);
-        nodes.push(rect);
-      }
-      figma.currentPage.selection = nodes;
-      figma.viewport.scrollAndZoomIntoView(nodes);
-    }
-    if (msg.type === 'cancel') {
-
-      /*  figma.closePlugin(); */
-       const  zoomLevel = figma.viewport.zoom;
-       console.log(zoomLevel)
-    }
 
     if (msg.type === 'zoomIn') {
        const  currentZoom = figma.viewport.zoom;
        const newZoom = Math.min(currentZoom + 0.1); // Increase zoom by 0.1, capped at 200%
        figma.viewport.zoom = newZoom;
     }
+
 
     if (msg.type === 'zoomOut') {
        const  currentZoom = figma.viewport.zoom;
@@ -85,24 +66,24 @@ const currentPage = figma.currentPage;
   }
 
 
+  if (msg.type === 'zoomToFrame') {
+    const frameZoomed = figma.currentPage.findOne(node => node.type === "FRAME" && node.name === "test");
+    if (frameZoomed) {
+        figma.viewport.scrollAndZoomIntoView([frameZoomed]);
+    } else {
+        console.error("Frame 'test' not found.");
+    }
+}
 
-
+if (msg.type === 'setFrame') {
+  figma.notify('Please select a frame', { timeout: 2000 })
+}
 
   if (msg.type === 'scrollViewport') {
   scrollViewport(msg.horizontal, msg.vertical)
 
   }
 
-      if (msg.type === 'dragStart') {
-        // Handle drag start
-        // e.g., store initial mouse position
-      } else if (msg.type === 'drag') {
-        // Handle drag
-        // e.g., update viewport position based on drag delta
-      } else if (msg.type === 'dragEnd') {
-        // Handle drag end
-        // e.g., clean up any drag-related data
-      }
 
   };
 }
