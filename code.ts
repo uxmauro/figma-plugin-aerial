@@ -70,42 +70,83 @@ const currentPage = figma.currentPage;
     const frameZoomed = figma.currentPage.findOne(node => node.type === "FRAME" && node.name === "test");
     if (frameZoomed) {
         figma.viewport.scrollAndZoomIntoView([frameZoomed]);
-    } else {
-        console.error("Frame 'test' not found.");
     }
 }
 
-if (msg.type === 'setFrame') {
-  figma.notify('Please select a frame', { timeout: 2000 })
+figma.on("currentpagechange", () => {
+  figma.notify('change')
+  figma.closePlugin();
+  // You can perform any actions you need here, such as updating the UI or executing specific functionality.
+});
+
+figma.on("documentchange", (event) => {
+  console.log(event)
+})
+
+
+const selected = figma.currentPage.selection;
+
+if (msg.type === 'setFrame' && selected.length > 0) {
+  const selection = figma.currentPage.findOne(node => node.name === selected[0].name);
+  if (selection) {
+    if (selection.width > 14000 || selection.height > 14000) {
+      figma.notify('Selected object is too large', { timeout: 2000 })
+    } else{
+
+      const image = selection.exportAsync({ format: 'PNG' }).then(image => {
+        const canvasColor = figma.currentPage.backgrounds[0].color
+        // Send the image data URL to the UI
+        figma.ui.postMessage({ type: 'frameImage', url: image, canvasColor: canvasColor });;
+      })
+
+      figma.viewport.scrollAndZoomIntoView([selection]);
+    }
+  } else{
+      figma.notify("Frame not found or does not exist.");
+        }
+        }
+
+
+if (msg.type === 'setFrame' && selected.length == 0){
+
+   figma.notify('Please make a selection', { timeout: 2000 })
+  // figma.ui.postMessage({ type: 'noSelection'})
 }
 
-  if (msg.type === 'scrollViewport') {
+
+if (msg.type === 'scrollViewport') {
   scrollViewport(msg.horizontal, msg.vertical)
 
-  }
-
-
-  };
 }
 
-const frame = figma.currentPage.findOne(node => node.type === "FRAME" && node.name === "test");
 
-// Check if the frame exists
-if (frame) {
-    // Get the image representation of the frame's contents
-    const image = frame.exportAsync({ format: 'PNG' }).then(image => {
-      // Send the image data URL to the UI
-      figma.ui.postMessage({ type: 'frameImage', url: image });;
-    })
-
-
-  } else {
-    figma.notify("Frame not found or does not exist.");
+};
 }
 
 
 
 
+
+
+// // Check if the frame exists
+// if (frame) {
+//     // Get the image representation of the frame's contents
+//     const image = frame.exportAsync({ format: 'PNG' }).then(image => {
+//       // Send the image data URL to the UI
+//       figma.ui.postMessage({ type: 'frameImage', url: image });;
+//     })
+
+
+//   } else {
+//     figma.notify("Frame not found or does not exist.");
+// }
+
+
+
+
+/*
+
+FIGJAM
 
 // Runs this code if the plugin is run in FigJam
 if (figma.editorType === 'figjam') {
@@ -156,3 +197,9 @@ if (figma.editorType === 'figjam') {
     figma.closePlugin();
   };
 };
+ */
+
+
+
+
+

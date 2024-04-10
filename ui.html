@@ -95,10 +95,15 @@ input[type="range"] {
   top: 10;
   width: 32px;
   height: 32px;
-  background: linear-gradient(180deg, rgba(158.10, 158.10, 158.10, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%);
+  background: linear-gradient(180deg, rgba(158.10, 158.10, 158.10, 0.40) 0%, rgba(255, 255, 255, 0.50) 100%);
   border-radius: 80px; border: 1px white solid;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 }
+
+#resetButton svg {
+  filter: drop-shadow(0 0 3px #333);
+}
+
 #refreshFrame {
   position: absolute;
   display: flex;
@@ -109,14 +114,24 @@ input[type="range"] {
   top: 50;
   width: 32px;
   height: 32px;
-  background: linear-gradient(180deg, rgba(158.10, 158.10, 158.10, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%);
+  background: linear-gradient(180deg, rgba(158.10, 158.10, 158.10, 0.40) 0%, rgba(255, 255, 255, 0.50) 100%);
   border-radius: 80px; border: 1px white solid;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 }
 
+#noSelection{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: #161616;
+}
+
 #setFrame{
   color: white;
-  text-decoration: underline;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -125,7 +140,6 @@ input[type="range"] {
 }
 #setFrame:hover{
   color: rgba(255, 255, 255, 0.744);
-  text-decoration: underline;
   font-weight: 600;
   cursor: pointer;
 }
@@ -182,6 +196,11 @@ input[type="range"] {
 <body>
 
   <div id="viewport-mini">
+    <div id='noSelection'>
+    <p style='color: white;font-weight: 600; text-align: center; width: 220px;'>
+      Make a selection and
+      click set selection to begin</div>
+    </p>
     <div id="indicator"></div>
     <img id="frame-image" src="" alt="Frame Image">
     <button id="resetButton"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -197,7 +216,7 @@ input[type="range"] {
       </button>
   </div>
 
-  <p id="setFrame">Set Frame</p>
+  <p id="setFrame">Set Selection</p>
 
 <div id="zoomControls">
   <button id="zoomOut"><svg width="14" height="3" viewBox="0 0 14 3" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -219,8 +238,26 @@ const miniViewport = document.getElementById('viewport-mini')
 const frameImage = document.getElementById('frame-image');
 const indicator = document.getElementById('indicator')
 const slider = document.getElementById('zoomSlider')
+const noSelection = document.getElementById('noSelection')
 
 
+if(frameImage.src == ""){
+  indicator.style.opacity = 0;
+  frameImage.style.opacity = 0;
+  noSelection.style.display = "flex";
+  miniViewport.style.pointerEvents = "none";
+}
+
+//Get Canvas Color
+function rgbToHex(r, g, b) {
+  const red = Math.round(r * 255).toString(16).padStart(2, '0');
+  const green = Math.round(g * 255).toString(16).padStart(2, '0');
+  const blue = Math.round(b * 255).toString(16).padStart(2, '0');
+  const hexCode = `#${red}${green}${blue}`;
+  return hexCode;
+}
+
+//Get Image
 window.onmessage = event => {
 const message = event.data.pluginMessage;
    if (message && message.type === 'frameImage') {
@@ -229,8 +266,20 @@ const message = event.data.pluginMessage;
 const imageUrl = URL.createObjectURL(blob);
 // Update the image source
 frameImage.src = imageUrl;
+indicator.style.opacity = 1;
+frameImage.style.opacity = 1;
+noSelection.style.display = "none";
+const canvasColor = message.canvasColor
+let bgColor = rgbToHex(canvasColor.r, canvasColor.g, canvasColor.b )
+miniViewport.style.backgroundColor = bgColor
 }
 };
+
+
+
+
+
+
 
 //Remove all click types to image
 frameImage.addEventListener('click', (e) => {
@@ -355,7 +404,14 @@ function zoomToFrame(){
     }
 function setFrame(){
      parent.postMessage({ pluginMessage: { type: 'setFrame' } }, '*')
+     miniViewport.style.pointerEvents = "auto";
 
+    }
+
+
+    function  reloadFrame(){
+      parent.postMessage({ pluginMessage: { type: 'reloadFrame' } }, '*')
+     miniViewport.style.pointerEvents = "auto";
     }
 
 
@@ -369,7 +425,7 @@ function setFrame(){
     document.getElementById('zoomSlider').addEventListener('input', setZoom);
 
     // Add event listener to the reset button
-    document.getElementById('resetButton').addEventListener('click', setZoom);
+    document.getElementById('resetButton').addEventListener('click', reloadFrame);
     document.getElementById('refreshFrame').addEventListener('click', zoomToFrame);
     document.getElementById('setFrame').addEventListener('click', setFrame);
 
