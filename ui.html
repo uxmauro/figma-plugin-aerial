@@ -85,14 +85,15 @@ input[type="range"] {
   width: 100%;
 }
 
-#resetButton {
+
+#reCenter {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #333;
-  left: 10;
-  top: 10;
+  left: 12;
+  top: 12;
   width: 32px;
   height: 32px;
   background: linear-gradient(180deg, rgba(158.10, 158.10, 158.10, 0.40) 0%, rgba(255, 255, 255, 0.50) 100%);
@@ -100,23 +101,8 @@ input[type="range"] {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 }
 
-#resetButton svg {
+#reCenter svg {
   filter: drop-shadow(0 0 3px #333);
-}
-
-#refreshFrame {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333;
-  left: 10;
-  top: 50;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(180deg, rgba(158.10, 158.10, 158.10, 0.40) 0%, rgba(255, 255, 255, 0.50) 100%);
-  border-radius: 80px; border: 1px white solid;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 }
 
 #noSelection{
@@ -197,20 +183,14 @@ input[type="range"] {
 
   <div id="viewport-mini">
     <div id='noSelection'>
-    <p style='color: white;font-weight: 600; text-align: center; width: 220px;'>
-      Make a selection and
-      click set selection to begin</div>
+    <p style='color: #B2B2B2;line-height: 24px; font-weight: 500; text-align: center; width: 220px;'>
+      Make a selection and click
+      <br> set selection to begin</div>
     </p>
     <div id="indicator"></div>
     <img id="frame-image" src="" alt="Frame Image">
-    <button id="resetButton"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99774 8.47578e-06L6 0C7.5913 4.22001e-06 9.11742 0.632145 10.2426 1.75736C11.3679 2.88258 12 4.40871 12 6C12 6.33138 11.7314 6.6 11.4 6.6C11.0686 6.6 10.8 6.33138 10.8 6C10.8 4.72697 10.2943 3.50607 9.39411 2.60589C8.4942 1.70598 7.27376 1.2003 6.00112 1.2C4.64838 1.20538 3.34998 1.73271 2.37658 2.67195L1.02426 4.02427C0.78995 4.25858 0.410051 4.25858 0.175736 4.02427C-0.0585787 3.78995 -0.0585787 3.41005 0.175736 3.17574L1.53174 1.81974L1.53897 1.81262C2.73568 0.655741 4.33328 0.00627 5.99774 8.47578e-06Z" fill="#333333"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M0.6 0C0.931371 0 1.2 0.268629 1.2 0.6V3H3.6C3.93137 3 4.2 3.26863 4.2 3.6C4.2 3.93137 3.93137 4.2 3.6 4.2H0.6C0.268629 4.2 0 3.93137 0 3.6V0.6C0 0.268629 0.268629 0 0.6 0Z" fill="#333333"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M0.6 5.40002C0.931371 5.40002 1.2 5.66865 1.2 6.00002C1.2 7.27306 1.70571 8.49396 2.60589 9.39414C3.50578 10.294 4.7262 10.7997 5.99882 10.8C7.35158 10.7947 8.65001 10.2673 9.62343 9.32807L10.9757 7.97576C11.2101 7.74145 11.5899 7.74145 11.8243 7.97576C12.0586 8.21007 12.0586 8.58997 11.8243 8.82429L10.4683 10.1803L10.461 10.1874C9.26432 11.3443 7.66672 11.9938 6.00226 12L6 12C4.4087 12 2.88258 11.3679 1.75736 10.2427C0.632141 9.11745 0 7.59132 0 6.00002C0 5.66865 0.268629 5.40002 0.6 5.40002Z" fill="#333333"/>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M7.80005 8.39999C7.80005 8.06862 8.06868 7.79999 8.40005 7.79999H11.4C11.7314 7.79999 12 8.06862 12 8.39999V11.4C12 11.7314 11.7314 12 11.4 12C11.0687 12 10.8 11.7314 10.8 11.4V8.99999H8.40005C8.06868 8.99999 7.80005 8.73136 7.80005 8.39999Z" fill="#333333"/>
-      </svg>
-      </button>
-    <button id="refreshFrame"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+    <button id="reCenter"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0C7.35145 0 7.63636 0.227928 7.63636 0.509092V1.30766C10.2911 1.6011 12.399 3.70897 12.6924 6.36369H13.4911C13.7722 6.36369 14.0002 6.6486 14.0002 7.00005C14.0002 7.35151 13.7722 7.63642 13.4911 7.63642H12.6924C12.3989 10.2911 10.291 12.3989 7.63636 12.6923V13.4909C7.63636 13.7721 7.35145 14 7 14C6.64854 14 6.36363 13.7721 6.36363 13.4909V12.6923C3.709 12.3988 1.60121 10.291 1.30773 7.63642H0.509092C0.227928 7.63642 0 7.35151 0 7.00005C0 6.6486 0.227928 6.36369 0.509092 6.36369H1.30772C1.60116 3.70901 3.70897 1.60116 6.36363 1.30768V0.509092C6.36363 0.227928 6.64854 0 7 0ZM7.00006 2.70454C4.62774 2.70454 2.70459 4.62768 2.70459 7C2.70459 9.37232 4.62774 11.2955 7.00006 11.2955C9.37238 11.2955 11.2955 9.37232 11.2955 7C11.2955 4.62768 9.37238 2.70454 7.00006 2.70454ZM6 7C6 6.44772 6.44772 6 7 6C7.55228 6 8 6.44772 8 7C8 7.55228 7.55228 8 7 8C6.44772 8 6 7.55228 6 7ZM7 5C5.89543 5 5 5.89543 5 7C5 8.10457 5.89543 9 7 9C8.10457 9 9 8.10457 9 7C9 5.89543 8.10457 5 7 5Z" fill="#333333"/>
       </svg>
       </button>
@@ -223,7 +203,7 @@ input[type="range"] {
     <path fill-rule="evenodd" clip-rule="evenodd" d="M0.909912 1.57996C0.909912 1.13261 1.27256 0.769958 1.71991 0.769958H13.0599C13.5072 0.769958 13.8699 1.13261 13.8699 1.57996C13.8699 2.02731 13.5072 2.38996 13.0599 2.38996H1.71991C1.27256 2.38996 0.909912 2.02731 0.909912 1.57996Z" fill="#D9D9D9"/>
     </svg>
     </button>
-  <input type="range" id="zoomSlider" class="slider" min="0.001" max="220" value="" step="0.4">
+  <input type="range" id="zoomSlider" class="slider" min="0.001" max="220" value="" step="0.2">
   <button id="zoomIn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M7.39002 0.909974C7.39002 0.462624 7.02737 0.0999756 6.58002 0.0999756C6.13267 0.0999756 5.77002 0.462624 5.77002 0.909974V5.76996H0.909852C0.462502 5.76996 0.0998535 6.13261 0.0998535 6.57996C0.0998535 7.02731 0.462502 7.38996 0.909852 7.38996H5.77002V12.25C5.77002 12.6973 6.13267 13.06 6.58002 13.06C7.02737 13.06 7.39002 12.6973 7.39002 12.25V7.38996H12.2498C12.6972 7.38996 13.0598 7.02731 13.0598 6.57996C13.0598 6.13261 12.6972 5.76996 12.2498 5.76996H7.39002V0.909974Z" fill="#D9D9D9"/>
     </svg>
@@ -239,6 +219,7 @@ const frameImage = document.getElementById('frame-image');
 const indicator = document.getElementById('indicator')
 const slider = document.getElementById('zoomSlider')
 const noSelection = document.getElementById('noSelection')
+let zoomSelection
 
 
 if(frameImage.src == ""){
@@ -260,6 +241,7 @@ function rgbToHex(r, g, b) {
 //Get Image
 window.onmessage = event => {
 const message = event.data.pluginMessage;
+zoomSelection = message.zoomSelection
    if (message && message.type === 'frameImage') {
     const blob = new Blob([message.url], { type: 'image/png' });
 // Create URL for the Blob
@@ -315,7 +297,6 @@ document.getElementById('zoomIn').onclick = () => {
     scale -= 0.02; // Decrease the scale factor by 0.1
   }
   indicator.style.transform = 'scale(' + scale + ')';
-  console.log(scale)
 }
 document.getElementById('zoomOut').onclick = () => {
   indicator.style.transformOrigin = 'center';
@@ -323,7 +304,6 @@ document.getElementById('zoomOut').onclick = () => {
   scale += 0.02; // Decrease the scale factor by 0.1
   indicator.style.transform = 'scale(' + scale + ')';
   parent.postMessage({ pluginMessage: { type: 'zoomOut' } }, '*')
-  console.log(scale)
 
 }
 
@@ -381,7 +361,7 @@ function drag(e) {
 
 function setZoom() {
       const zoomValue = document.getElementById('zoomSlider').value/ 1000; // Convert slider value to zoom level (0 to 1)
-      // console.log(zoomValue*100)
+
       let minValue = parseFloat(slider.min);
       let maxValue = parseFloat(slider.max);
 
@@ -390,29 +370,24 @@ function setZoom() {
 
       // Invert the value
       let invertedValue = maxValue - (value - minValue);
-      console.log(invertedValue/100)
 
       indicator.style.transformOrigin = 'center';
       indicator.style.transform = `scale(${(invertedValue/100)})`;
+      scale = invertedValue/100;
       parent.postMessage({ pluginMessage: { type: 'setZoom', value: zoomValue } }, '*');
 
     }
 
 function zoomToFrame(){
-     parent.postMessage({ pluginMessage: { type: 'zoomToFrame' } }, '*')
-
+     parent.postMessage({ pluginMessage: { type: 'zoomToFrame', zoomValue: zoomSelection } }, '*')
+    resetZoom()
     }
 function setFrame(){
      parent.postMessage({ pluginMessage: { type: 'setFrame' } }, '*')
      miniViewport.style.pointerEvents = "auto";
-
+     setZoom();
     }
 
-
-    function  reloadFrame(){
-      parent.postMessage({ pluginMessage: { type: 'reloadFrame' } }, '*')
-     miniViewport.style.pointerEvents = "auto";
-    }
 
 
     // Function to reset zoom level to default (100%)
@@ -425,8 +400,8 @@ function setFrame(){
     document.getElementById('zoomSlider').addEventListener('input', setZoom);
 
     // Add event listener to the reset button
-    document.getElementById('resetButton').addEventListener('click', reloadFrame);
-    document.getElementById('refreshFrame').addEventListener('click', zoomToFrame);
+
+    document.getElementById('reCenter').addEventListener('click', zoomToFrame);
     document.getElementById('setFrame').addEventListener('click', setFrame);
 
 

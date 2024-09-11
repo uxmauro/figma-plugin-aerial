@@ -1,5 +1,5 @@
 {
-  "name": "Aerial",
+  "name": "aerial",
   "version": "1.0.0",
   "description": "Your Figma Plugin",
   "main": "code.js",
@@ -7,7 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "watch": "npm run build -- --watch"
   },
-  "author": "",
+  "author": "Mauro",
   "license": "",
   "devDependencies": {
     "@figma/plugin-typings": "^1.88.0",

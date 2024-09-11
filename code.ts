@@ -1,20 +1,12 @@
 
-// Runs this code if the plugin is run in Figma
+
 if (figma.editorType === 'figma') {
 
 
 const currentPage = figma.currentPage;
 
-
-
-  console.log(figma.viewport.zoom)
-
   figma.showUI(__html__, {width: 400, height: 400 ,  themeColors: false});
 
-
-  // Calls to "parent.postMessage" from within the HTML page will trigger this
-  // callback. The callback will be passed the "pluginMessage" property of the
-  // posted message.
 
   const MIN_ZOOM_LEVEL = 0.01;
   const MAX_ZOOM_LEVEL = 218;
@@ -23,14 +15,11 @@ const currentPage = figma.currentPage;
   // Function to calculate slider value based on zoom level
 
 
-
-
-
   figma.ui.onmessage = msg => {
 
     if (msg.type === 'zoomIn') {
        const  currentZoom = figma.viewport.zoom;
-       const newZoom = Math.min(currentZoom + 0.1); // Increase zoom by 0.1, capped at 200%
+       const newZoom = Math.min(currentZoom + 0.3); // Increase zoom by 0.1, capped at 200%
        figma.viewport.zoom = newZoom;
     }
 
@@ -38,10 +27,10 @@ const currentPage = figma.currentPage;
     if (msg.type === 'zoomOut') {
        const  currentZoom = figma.viewport.zoom;
       if (currentZoom < 0.19) {
-        const newZoom = Math.max(currentZoom - 0.01, 0.015625);
+        const newZoom = Math.max(currentZoom - 0.02, 0.015625);
         figma.viewport.zoom = newZoom;
       } else{
-        const newZoom = Math.max(currentZoom - 0.1, 0.1);
+        const newZoom = Math.max(currentZoom - 0.3, 0.1);
         figma.viewport.zoom = newZoom;
 
       }
@@ -51,7 +40,8 @@ const currentPage = figma.currentPage;
 
     if (msg.type === 'setZoom') {
       const zoomValue = parseFloat(msg.value);
-      const newZoom = MIN_ZOOM_LEVEL + zoomValue * (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL); // Scale zoom value between MIN_ZOOM_LEVEL and MAX_ZOOM_LEVEL
+      // Scale zoom value between MIN_ZOOM_LEVEL and MAX_ZOOM_LEVEL
+      const newZoom = MIN_ZOOM_LEVEL + zoomValue * (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL);
       figma.viewport.zoom = newZoom;
     }
 
@@ -66,28 +56,21 @@ const currentPage = figma.currentPage;
   }
 
 
-  if (msg.type === 'zoomToFrame') {
-    const frameZoomed = figma.currentPage.findOne(node => node.type === "FRAME" && node.name === "test");
-    if (frameZoomed) {
-        figma.viewport.scrollAndZoomIntoView([frameZoomed]);
-    }
-}
+
 
 figma.on("currentpagechange", () => {
-  figma.notify('change')
   figma.closePlugin();
-  // You can perform any actions you need here, such as updating the UI or executing specific functionality.
 });
 
-figma.on("documentchange", (event) => {
-  console.log(event)
-})
 
 
 const selected = figma.currentPage.selection;
 
 if (msg.type === 'setFrame' && selected.length > 0) {
-  const selection = figma.currentPage.findOne(node => node.name === selected[0].name);
+  const selectionName = selected[0].name;
+  const selection = figma.currentPage.findOne(node => node.name === selectionName);
+
+
   if (selection) {
     if (selection.width > 14000 || selection.height > 14000) {
       figma.notify('Selected object is too large', { timeout: 2000 })
@@ -96,108 +79,38 @@ if (msg.type === 'setFrame' && selected.length > 0) {
       const image = selection.exportAsync({ format: 'PNG' }).then(image => {
         const canvasColor = figma.currentPage.backgrounds[0].color
         // Send the image data URL to the UI
-        figma.ui.postMessage({ type: 'frameImage', url: image, canvasColor: canvasColor });;
+        figma.ui.postMessage({ type: 'frameImage', url: image, canvasColor: canvasColor , zoomSelection: selection});;
       })
 
       figma.viewport.scrollAndZoomIntoView([selection]);
+
     }
   } else{
-      figma.notify("Frame not found or does not exist.");
-        }
-        }
+    figma.notify("Frame not found or does not exist.");
+  }
+}
 
 
 if (msg.type === 'setFrame' && selected.length == 0){
-
-   figma.notify('Please make a selection', { timeout: 2000 })
-  // figma.ui.postMessage({ type: 'noSelection'})
+  figma.notify('Please make a selection', { timeout: 2000 })
 }
 
+
+
+if (msg.type === 'zoomToFrame') {
+  const zoomSelection = (msg.zoomValue);
+  if(zoomSelection){
+  figma.viewport.scrollAndZoomIntoView([zoomSelection]);
+}
+
+}
 
 if (msg.type === 'scrollViewport') {
   scrollViewport(msg.horizontal, msg.vertical)
-
 }
-
-
 };
 }
 
-
-
-
-
-
-// // Check if the frame exists
-// if (frame) {
-//     // Get the image representation of the frame's contents
-//     const image = frame.exportAsync({ format: 'PNG' }).then(image => {
-//       // Send the image data URL to the UI
-//       figma.ui.postMessage({ type: 'frameImage', url: image });;
-//     })
-
-
-//   } else {
-//     figma.notify("Frame not found or does not exist.");
-// }
-
-
-
-
-/*
-
-FIGJAM
-
-// Runs this code if the plugin is run in FigJam
-if (figma.editorType === 'figjam') {
-  // This plugin will open a window to prompt the user to enter a number, and
-  // it will then create that many shapes and connectors on the screen.
-
-  // This shows the HTML page in "ui.html".
-  figma.showUI(__html__);
-
-  // Calls to "parent.postMessage" from within the HTML page will trigger this
-  // callback. The callback will be passed the "pluginMessage" property of the
-  // posted message.
-  figma.ui.onmessage = msg => {
-    // One way of distinguishing between different types of messages sent from
-    // your HTML page is to use an object with a "type" property like this.
-    if (msg.type === 'create-shapes') {
-      const numberOfShapes = msg.count;
-      const nodes: SceneNode[] = [];
-      for (let i = 0; i < numberOfShapes; i++) {
-        const shape = figma.createShapeWithText();
-        // You can set shapeType to one of: 'SQUARE' | 'ELLIPSE' | 'ROUNDED_RECTANGLE' | 'DIAMOND' | 'TRIANGLE_UP' | 'TRIANGLE_DOWN' | 'PARALLELOGRAM_RIGHT' | 'PARALLELOGRAM_LEFT'
-        shape.shapeType = 'ROUNDED_RECTANGLE'
-        shape.x = i * (shape.width + 200);
-        shape.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
-        figma.currentPage.appendChild(shape);
-        nodes.push(shape);
-      };
-
-      for (let i = 0; i < (numberOfShapes - 1); i++) {
-        const connector = figma.createConnector();
-        connector.strokeWeight = 8
-
-        connector.connectorStart = {
-          endpointNodeId: nodes[i].id,
-          magnet: 'AUTO',
-        };
-
-        connector.connectorEnd = {
-          endpointNodeId: nodes[i+1].id,
-          magnet: 'AUTO',
-        };
-      };
-
-      figma.currentPage.selection = nodes;
-      figma.viewport.scrollAndZoomIntoView(nodes);
-    }
-
-    figma.closePlugin();
-  };
-};
- */
 
 
 
