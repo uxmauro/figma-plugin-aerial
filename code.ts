@@ -1,5 +1,3 @@
-
-
 if (figma.editorType === 'figma') {
 
 
@@ -74,18 +72,25 @@ if (msg.type === 'setFrame' && selected.length > 0) {
   if (selection) {
     if (selection.width > 14000 || selection.height > 14000) {
       figma.notify('Selected object is too large', { timeout: 2000 })
-    } else{
-
+    } else {
       const image = selection.exportAsync({ format: 'PNG' }).then(image => {
-        const canvasColor = figma.currentPage.backgrounds[0].color
+        const background = figma.currentPage.backgrounds[0];
+        let canvasColor;
+        
+        if (background.type === 'SOLID') {
+          canvasColor = background.color;
+        } else {
+          // Handle other paint types or set a default color
+          canvasColor = { r: 1, g: 1, b: 1 }; // White as default
+        }
+
         // Send the image data URL to the UI
-        figma.ui.postMessage({ type: 'frameImage', url: image, canvasColor: canvasColor , zoomSelection: selection});;
+        figma.ui.postMessage({ type: 'frameImage', url: image, canvasColor: canvasColor, zoomSelection: selection });
       })
 
       figma.viewport.scrollAndZoomIntoView([selection]);
-
     }
-  } else{
+  } else {
     figma.notify("Frame not found or does not exist.");
   }
 }

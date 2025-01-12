@@ -1,14 +1,12 @@
 {
   "name": "aerial",
   "version": "1.0.0",
-  "description": "Your Figma Plugin",
+  "description": "Select any object, a frame, section or image. Through a bird's-eye manipulate the viewport to navigate and explore your design with ease and precision.",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "watch": "npm run build -- --watch"
   },
-  "author": "Mauro",
-  "license": "",
   "devDependencies": {
     "@figma/plugin-typings": "^1.88.0",
     "typescript": "*"
