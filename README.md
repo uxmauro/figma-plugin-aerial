@@ -1,6 +1,9 @@
 # Aerial
 
-Aerial is a plugin for [Figma](https://www.figma.com) that allows users to select any object, a frame, section or image. Through a bird's-eye manipulate the viewport to navigate and explore your design with ease and precision.
+
+![Aerial Thumbnail](https://github.com/user-attachments/assets/4d7e37c1-ad03-46af-bb07-b782a14aa01e)
+
+Aerial is a plugin for [Figma](https://www.figma.com) that allows users to select any object, a frame, section or image. Through a bird's-eye manipulate the viewport to navigate and explore your designs.
 
 ## Getting Started
 
@@ -29,9 +32,6 @@ If you are new to Figma plugins, check out the [plugin documentation](https://ww
 - Indicator position is inconsistent with drag position and zoom level
 - Some frames or images fail to load properly
 
-## Contributing
-
-Contributions are welcome! Please open a pull request with your changes.
 
 ## License
 
