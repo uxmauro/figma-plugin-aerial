@@ -21,12 +21,13 @@ If you are new to Figma plugins, check out the [plugin documentation](https://ww
 
 1. Build the plugin: `npm run build`
 
-### Publish
 
-1. Create a new release on GitHub.
-2. Update the `name` and `version` fields in the `package.json` file.
-3. Run `npm publish` to publish the new version to the npm registry.
-4. Go to the Figma plugin page and click the "Update" button.
+## Known  Bugs
+
+- Zoom manipulation does not align with the indicator
+- Zoom controls are mismatched
+- Indicator position is inconsistent with drag position and zoom level
+- Some frames or images fail to load properly
 
 ## Contributing
 
