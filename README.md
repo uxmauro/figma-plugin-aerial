@@ -1,40 +1,37 @@
-Below are the steps to get your plugin running. You can also find instructions at:
+# Aerial
 
-  https://www.figma.com/plugin-docs/plugin-quickstart-guide/
+Aerial is a plugin for [Figma](https://www.figma.com) that allows users to select any object, a frame, section or image. Through a bird's-eye manipulate the viewport to navigate and explore your design with ease and precision.
 
-This plugin template uses Typescript and NPM, two standard tools in creating JavaScript applications.
+## Getting Started
 
-First, download Node.js which comes with NPM. This will allow you to install TypeScript and other
-libraries. You can find the download link here:
+If you are new to Figma plugins, check out the [plugin documentation](https://www.figma.com/plugin-docs/).
 
-  https://nodejs.org/en/download/
+### Install Dependencies
 
-Next, install TypeScript using the command:
+1. Install Node.js: https://nodejs.org/en/download/
+2. Install TypeScript: `npm install -g typescript`
+3. Install project dependencies: `npm install`
 
-  npm install -g typescript
+### Development
 
-Finally, in the directory of your plugin, get the latest type definitions for the plugin API by running:
+1. Start the TypeScript compiler: `npm run watch`
+2. Open the plugin in Figma: `figma plugin --development`
 
-  npm install --save-dev @figma/plugin-typings
+### Build
 
-If you are familiar with JavaScript, TypeScript will look very familiar. In fact, valid JavaScript code
-is already valid Typescript code.
+1. Build the plugin: `npm run build`
 
-TypeScript adds type annotations to variables. This allows code editors such as Visual Studio Code
-to provide information about the Figma API while you are writing code, as well as help catch bugs
-you previously didn't notice.
+### Publish
 
-For more information, visit https://www.typescriptlang.org/
+1. Create a new release on GitHub.
+2. Update the `name` and `version` fields in the `package.json` file.
+3. Run `npm publish` to publish the new version to the npm registry.
+4. Go to the Figma plugin page and click the "Update" button.
 
-Using TypeScript requires a compiler to convert TypeScript (code.ts) into JavaScript (code.js)
-for the browser to run.
+## Contributing
 
-We recommend writing TypeScript code using Visual Studio code:
+Contributions are welcome! Please open a pull request with your changes.
 
-1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
-2. Open this directory in Visual Studio Code.
-3. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
-    then select "npm: watch". You will have to do this again every time
-    you reopen Visual Studio Code.
+## License
 
-That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
+Aerial is licensed under the MIT license.
